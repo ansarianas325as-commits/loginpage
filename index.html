@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gafc</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #6c63ff, #3a3ef2);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: #fff;
+      padding: 40px 35px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 380px; /* Fit PC & Mobile */
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+      font-size: 24px;
+    }
+
+    .input-box {
+      margin-bottom: 20px;
+    }
+
+    .input-box label {
+      display: block;
+      margin-bottom: 5px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      font-size: 15px;
+      transition: border-color 0.3s ease;
+    }
+
+    .input-box input:focus {
+      border-color: #6c63ff;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #6c63ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #4e48d5;
+    }
+
+    #message {
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .error { color: red; }
+    .success { color: green; }
+
+    .signup-text {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .signup-text a {
+      color: #6c63ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .signup-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* ✅ Responsive design for mobile */
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+        width: 100%;
+      }
+
+      .login-container h2 {
+        font-size: 20px;
+      }
+
+      button {
+        padding: 12px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>GAFC LOGIN</h2>
+
+    <form id="loginForm">
+      <div class="input-box">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+      </div>
+
+      <div class="input-box">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required />
+      </div>
+
+      <div id="message"></div>
+
+      <button type="submit">Login</button>
+
+      <p class="signup-text">
+        Don’t have an account? <a href="#">Sign up</a>
+      </p>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let email = document.getElementById("email").value.trim();
+      let password = document.getElementById("password").value.trim();
+      let message = document.getElementById("message");
+
+      // ✅ Email validation (must contain @, domain, and start with alphabet)
+      const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-z]{2,}$/;
+
+      // ✅ Strong password validation
+      // At least 8 chars, uppercase, lowercase, number, and special character
+      const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+
+      // Validate email
+      if (!emailPattern.test(email)) {
+        message.innerHTML = "<p class='error'>⚠️ Enter a valid email (example@gmail.com)</p>";
+        return;
+      }
+
+      // Validate password
+      if (!passwordPattern.test(password)) {
+        message.innerHTML = `
+          <p class='error'>
+          ❌ Weak password. Use:<br>
+          • 8+ characters<br>
+          • 1 uppercase, 1 lowercase<br>
+          • 1 number & 1 symbol (!@#$%^&*)
+          </p>`;
+        return;
+      }
+
+      // ✅ If everything is valid
+      message.innerHTML = "<p class='success'>✅ Login Successful! Redirecting...</p>";
+
+      setTimeout(() => {
+        // You can change this URL to your welcome page
+        window.location.href = "welcome.html";
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
