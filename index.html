@@ -19,6 +19,19 @@
       align-items: center;
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
       padding: 20px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    /* Added container for better mobile layout */
+    .container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 820px;
     }
 
     .calculator {
@@ -130,9 +143,171 @@
       box-shadow: 0 6px 20px rgba(168, 237, 234, 0.4);
     }
 
-    @media (max-width: 400px) {
+    .history-wrapper {
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .history-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      backdrop-filter: blur(10px);
+      max-height: 600px;
+      display: flex;
+      flex-direction: column;
+      /* Added transition for smooth hide/show */
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .history-panel.hidden {
+      max-height: 0;
+      padding: 0;
+      margin: 0;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .history-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .clear-history {
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      color: white;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .clear-history:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(250, 112, 154, 0.4);
+    }
+
+    .clear-history:active {
+      transform: translateY(0);
+    }
+
+    .history-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .history-list::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .history-list::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 4px;
+    }
+
+    .history-list::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 4px;
+    }
+
+    .history-item {
+      padding: 16px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .history-item:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .history-item .expression {
+      font-size: 16px;
+      color: #1a1a2e;
+      margin-bottom: 4px;
+      opacity: 0.8;
+    }
+
+    .history-item .result {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .empty-history {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+      font-size: 16px;
+    }
+
+    /* Added toggle button styles */
+    .toggle-history-btn {
+      width: 100%;
+      padding: 16px;
+      margin-top: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .toggle-history-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    }
+
+    .toggle-history-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Updated mobile responsiveness */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        gap: 16px;
+      }
+
       .calculator {
         padding: 20px;
+        max-width: 100%;
       }
 
       .display .current {
@@ -143,39 +318,80 @@
         padding: 20px;
         font-size: 18px;
       }
+
+      .history-wrapper {
+        max-width: 100%;
+      }
+
+      .history-panel {
+        max-height: 400px;
+      }
+
+      .toggle-history-btn {
+        padding: 14px;
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 840px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="calculator">
-    <div class="display">
-      <div class="previous" id="previous"></div>
-      <div class="current" id="current">0</div>
+  <!-- Added container wrapper -->
+  <div class="container">
+    <div class="calculator">
+      <div class="display">
+        <div class="previous" id="previous"></div>
+        <div class="current" id="current">0</div>
+      </div>
+      <div class="buttons">
+        <button class="clear" onclick="clearAll()">AC</button>
+        <button class="operator" onclick="deleteLast()">DEL</button>
+        <button class="operator" onclick="appendOperator('÷')">÷</button>
+        <button class="operator" onclick="appendOperator('×')">×</button>
+        
+        <button class="number" onclick="appendNumber('7')">7</button>
+        <button class="number" onclick="appendNumber('8')">8</button>
+        <button class="number" onclick="appendNumber('9')">9</button>
+        <button class="operator" onclick="appendOperator('-')">-</button>
+        
+        <button class="number" onclick="appendNumber('4')">4</button>
+        <button class="number" onclick="appendNumber('5')">5</button>
+        <button class="number" onclick="appendNumber('6')">6</button>
+        <button class="operator" onclick="appendOperator('+')">+</button>
+        
+        <button class="number" onclick="appendNumber('1')">1</button>
+        <button class="number" onclick="appendNumber('2')">2</button>
+        <button class="number" onclick="appendNumber('3')">3</button>
+        <button class="operator" onclick="appendOperator('%')">%</button>
+        
+        <button class="number zero" onclick="appendNumber('0')">0</button>
+        <button class="number" onclick="appendNumber('.')">.</button>
+        <button class="equals" onclick="calculate()">=</button>
+      </div>
+      <!-- Added toggle button -->
+      <button class="toggle-history-btn" onclick="toggleHistory()">
+        <span id="toggleIcon">📊</span>
+        <span id="toggleText">Show History</span>
+      </button>
     </div>
-    <div class="buttons">
-      <button class="clear" onclick="clearAll()">AC</button>
-      <button class="operator" onclick="deleteLast()">DEL</button>
-      <button class="operator" onclick="appendOperator('÷')">÷</button>
-      <button class="operator" onclick="appendOperator('×')">×</button>
-      
-      <button class="number" onclick="appendNumber('7')">7</button>
-      <button class="number" onclick="appendNumber('8')">8</button>
-      <button class="number" onclick="appendNumber('9')">9</button>
-      <button class="operator" onclick="appendOperator('-')">-</button>
-      
-      <button class="number" onclick="appendNumber('4')">4</button>
-      <button class="number" onclick="appendNumber('5')">5</button>
-      <button class="number" onclick="appendNumber('6')">6</button>
-      <button class="operator" onclick="appendOperator('+')">+</button>
-      
-      <button class="number" onclick="appendNumber('1')">1</button>
-      <button class="number" onclick="appendNumber('2')">2</button>
-      <button class="number" onclick="appendNumber('3')">3</button>
-      <button class="operator" onclick="appendOperator('%')">%</button>
-      
-      <button class="number zero" onclick="appendNumber('0')">0</button>
-      <button class="number" onclick="appendNumber('.')">.</button>
-      <button class="equals" onclick="calculate()">=</button>
+
+    <!-- Added history wrapper -->
+    <div class="history-wrapper">
+      <div class="history-panel hidden" id="historyPanel">
+        <div class="history-header">
+          <h2>History</h2>
+          <button class="clear-history" onclick="clearHistory()">Clear All</button>
+        </div>
+        <div class="history-list" id="historyList">
+          <div class="empty-history">No calculations yet</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -184,9 +400,60 @@
     let previousValue = '';
     let operation = null;
     let shouldResetScreen = false;
+    let history = [];
+    /* Added history panel visibility state */
+    let isHistoryVisible = false;
 
     const currentDisplay = document.getElementById('current');
     const previousDisplay = document.getElementById('previous');
+    const historyList = document.getElementById('historyList');
+    /* Added history panel elements */
+    const historyPanel = document.getElementById('historyPanel');
+    const toggleText = document.getElementById('toggleText');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    function updateHistoryDisplay() {
+      if (history.length === 0) {
+        historyList.innerHTML = '<div class="empty-history">No calculations yet</div>';
+        return;
+      }
+
+      let historyHTML = '';
+      for (let i = history.length - 1; i >= 0; i--) {
+        historyHTML += `
+          <div class="history-item" onclick="useHistoryResult(${i})">
+            <div class="expression">${history[i].expression}</div>
+            <div class="result">= ${history[i].result}</div>
+          </div>
+        `;
+      }
+      historyList.innerHTML = historyHTML;
+    }
+
+    function addToHistory(expression, result) {
+      history.push({
+        expression: expression,
+        result: result
+      });
+      updateHistoryDisplay();
+    }
+
+    function useHistoryResult(index) {
+      const item = history[index];
+      currentValue = item.result;
+      previousValue = '';
+      operation = null;
+      shouldResetScreen = true;
+      updateDisplay();
+    }
+
+    function clearHistory() {
+      if (history.length === 0) return;
+      if (confirm('Clear all calculation history?')) {
+        history = [];
+        updateHistoryDisplay();
+      }
+    }
 
     function updateDisplay() {
       currentDisplay.textContent = currentValue;
@@ -245,7 +512,14 @@
           return;
       }
 
-      currentValue = result === 'Error' ? 'Error' : String(Math.round(result * 100000000) / 100000000);
+      const expression = `${previousValue} ${operation} ${currentValue}`;
+      const resultValue = result === 'Error' ? 'Error' : String(Math.round(result * 100000000) / 100000000);
+      
+      if (result !== 'Error') {
+        addToHistory(expression, resultValue);
+      }
+
+      currentValue = resultValue;
       operation = null;
       previousValue = '';
       shouldResetScreen = true;
@@ -269,7 +543,21 @@
       updateDisplay();
     }
 
-    // Keyboard support
+    /* Added toggle history function */
+    function toggleHistory() {
+      isHistoryVisible = !isHistoryVisible;
+      
+      if (isHistoryVisible) {
+        historyPanel.classList.remove('hidden');
+        toggleText.textContent = 'Hide History';
+        toggleIcon.textContent = '📈';
+      } else {
+        historyPanel.classList.add('hidden');
+        toggleText.textContent = 'Show History';
+        toggleIcon.textContent = '📊';
+      }
+    }
+
     document.addEventListener('keydown', (e) => {
       if (e.key >= '0' && e.key <= '9') appendNumber(e.key);
       if (e.key === '.') appendNumber('.');
